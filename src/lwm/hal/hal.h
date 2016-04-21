@@ -34,11 +34,17 @@
 
 #ifndef _HAL_H_
 #define _HAL_H_
+ 
+#define RFCTRL_FECTRL MMIO_REG(0x42005400, uint16_t)
 
 #include <Arduino.h>
+#include <wiring_digital.h>
+#include <wiring_private.h>
+#include "../hal/halTimer.h"
+#include "../sys/sys.h"
+#include "../phy/at86rf233.h"
 
-inline void HAL_Init(void) { /* Nothing to do */ }
+extern void HAL_Init(void);
 inline void HAL_Delay(uint8_t us) { delay(us); }
 
 #endif // _HAL_H_
-

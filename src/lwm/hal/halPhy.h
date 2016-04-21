@@ -1,10 +1,7 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
 /**
- * \file phy.h
+ * \file halPhy.h
  *
- * \brief ATMEGAxxxRFR2 PHY interface
+ * \brief ATSAMD21 PHY interface
  *
  * Copyright (C) 2012-2014, Atmel Corporation. All rights reserved.
  *
@@ -43,69 +40,60 @@ extern "C" {
  * Modification and other use of this code is subject to Atmel's Limited
  * License Agreement (license.txt).
  *
- * $Id: phy.h 9267 2014-03-18 21:46:19Z ataradov $
+ * $Id: halPhy.h 9267 2014-03-18 21:46:19Z ataradov $
  *
  */
 
-#ifndef _PHY_H_
-#define _PHY_H_
+#ifndef _HAL_PHY_H_
+#define _HAL_PHY_H_
 
 /*- Includes ---------------------------------------------------------------*/
 #include <stdint.h>
-#include <stdbool.h>
-#include "../sys/sysConfig.h"
+// #include "hal.h"
+
+#include <Arduino.h>
+#include <variant.h>
+#include <wiring_digital.h>
+#include <wiring_private.h>
+
+#include "hal.h"
 
 /*- Definitions ------------------------------------------------------------*/
-#define PHY_RSSI_BASE_VAL                     (-91) //(-90)
+// #if defined(PLATFORM_XPLAINED_PRO_SAMR21)
+//   // ATSAMR21xxx internal connection to the AT86RF233
+//   HAL_GPIO_PIN(PHY_RST,    B, 15);
+//   HAL_GPIO_PIN(PHY_IRQ,    B, 0);
+//   HAL_GPIO_PIN(PHY_SLP_TR, A, 20);
+//   HAL_GPIO_PIN(PHY_CS,     B, 31);
+//   HAL_GPIO_PIN(PHY_MISO,   C, 19);
+//   HAL_GPIO_PIN(PHY_MOSI,   B, 30);
+//   HAL_GPIO_PIN(PHY_SCK,    C, 18);
+// #endif
 
-#define PHY_HAS_RANDOM_NUMBER_GENERATOR
-#define PHY_HAS_AES_MODULE
-
-/*- Types ------------------------------------------------------------------*/
-typedef struct PHY_DataInd_t
-{
-  uint8_t    *data;
-  uint8_t    size;
-  uint8_t    lqi;
-  int8_t     rssi;
-} PHY_DataInd_t;
-
-enum
-{
-  PHY_STATUS_SUCCESS                = 0,
-  PHY_STATUS_CHANNEL_ACCESS_FAILURE = 1,
-  PHY_STATUS_NO_ACK                 = 2,
-  PHY_STATUS_ERROR                  = 3,
-};
 
 /*- Prototypes -------------------------------------------------------------*/
-void PHY_Init(void);
-void PHY_SetRxState(bool rx);
-void PHY_SetChannel(uint8_t channel);
-// void PHY_SetBand(uint8_t band);
-void PHY_SetPanId(uint16_t panId);
-void PHY_SetShortAddr(uint16_t addr);
-void PHY_SetTxPower(uint8_t txPower);
-void PHY_Sleep(void);
-void PHY_Wakeup(void);
-void PHY_DataReq(uint8_t *data, uint8_t size);
-void PHY_DataConf(uint8_t status);
-void PHY_DataInd(PHY_DataInd_t *ind);
-void PHY_TaskHandler(void);
+uint8_t HAL_PhySpiWriteByte(uint8_t value);
+void HAL_PhyReset(void);
+void halPhyInit(void);
 
-#ifdef PHY_ENABLE_RANDOM_NUMBER_GENERATOR
-uint16_t PHY_RandomReq(void);
-#endif
+/*- Implementations --------------------------------------------------------*/
 
-#ifdef PHY_ENABLE_AES_MODULE
-void PHY_EncryptReq(uint8_t *text, uint8_t *key);
-#endif
+uint8_t HAL_PhySpiWriteByteInline(uint8_t value);
 
-#ifdef PHY_ENABLE_ENERGY_DETECTION
-int8_t PHY_EdReq(void);
-#endif
+/*************************************************************************//**
+*****************************************************************************/
+void HAL_PhySpiSelect(void);
 
-#endif // _PHY_H_
-#ifdef __cplusplus
-}
-#endif
+/*************************************************************************//**
+*****************************************************************************/
+void HAL_PhySpiDeselect(void);
+
+/*************************************************************************//**
+*****************************************************************************/
+void HAL_PhySlpTrSet(void);
+
+/*************************************************************************//**
+*****************************************************************************/
+void HAL_PhySlpTrClear(void);
+
+#endif // _HAL_PHY_H_

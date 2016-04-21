@@ -107,8 +107,14 @@ extern "C" {
 
   #elif defined(HAL_ATSAMD21J18)
     #define DONT_USE_CMSIS_INIT
-    #include "samd21j18a.h"
+    #include <samd21j18a.h>
 
+    #define SYS_MCU_ARCH_CORTEX_M
+
+  #elif defined(HAL_ATSAMR21E18A)
+    #define DONT_USE_CMSIS_INIT
+    #include "samr21/include/samr21e18a.h"
+  
     #define SYS_MCU_ARCH_CORTEX_M
 
   #else // All AVRs
@@ -165,6 +171,7 @@ extern "C" {
 #elif defined(HAL_ATXMEGA256A3U)
 #elif defined(HAL_ATSAMD20J18)
 #elif defined(HAL_ATSAMD21J18)
+#elif defined(HAL_ATSAMR21E18A)
 #else
   #error Unknown HAL
 #endif

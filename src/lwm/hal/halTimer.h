@@ -45,4 +45,12 @@
 
 #define halTimerIrqCount (millis())
 
+/*- Definitions ------------------------------------------------------------*/
+#define TIMER_PRESCALER  8
+#define TIMER_TOP        (((F_CPU / 1000ul) / TIMER_PRESCALER) * HAL_TIMER_INTERVAL)
+
+// extern volatile uint8_t halTimerIrqCount;
+
+extern void HAL_IrqHandlerSPI(void);
+
 #endif // _HAL_TIMER_H_
