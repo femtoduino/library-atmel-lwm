@@ -55,7 +55,7 @@ extern "C" {
 #include "../sys/sysTypes.h"
 
 /*- Definitions ------------------------------------------------------------*/
-#define NWK_FRAME_MAX_PAYLOAD_SIZE   127
+#define NWK_FRAME_MAX_PAYLOAD_SIZE   /*127*/ 200
 
 /*- Types ------------------------------------------------------------------*/
 typedef struct PACK NwkFrameHeader_t
